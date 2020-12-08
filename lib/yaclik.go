@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func FetchFieldsJson(appid string, subdomain string, userid string, password string) ([]byte, error) {
+func FetchFieldsJson(appid string, subdomain string, userid string, password string, guestspace string) ([]byte, error) {
 	client := &http.Client{}
 	type Body struct {
 		App string `json:"app"`
@@ -21,7 +21,13 @@ func FetchFieldsJson(appid string, subdomain string, userid string, password str
 	if err != nil {
 		log.Fatal("Error JSON Encode")
 	}
-	req, err := http.NewRequest("GET", "https://"+subdomain+".cybozu.com/k/v1/app/form/fields.json", bytes.NewReader(body))
+	requestUri := ""
+	if guestspace == "0" {
+		requestUri = "https://" + subdomain + ".cybozu.com/k/v1/app/form/fields.json"
+	} else {
+		requestUri = "https://" + subdomain + ".cybozu.com/k/guest/" + guestspace + "/v1/app/form/fields.json"
+	}
+	req, err := http.NewRequest("GET", requestUri, bytes.NewReader(body))
 	if err != nil {
 		log.Fatal("Error request")
 	}

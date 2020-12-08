@@ -12,11 +12,12 @@ import (
 )
 
 type Env struct {
-	Domain   string
-	AppID    string
-	Login    string
-	Password string
-	Format   string
+	Domain     string
+	AppID      string
+	Login      string
+	Password   string
+	Format     string
+	GuestSpace string
 }
 
 func main() {
@@ -26,6 +27,7 @@ func main() {
 	flag.StringVar(&env.Login, "n", "", "User login name")
 	flag.StringVar(&env.Password, "p", "", "User login password")
 	flag.StringVar(&env.Format, "o", "csv", "Output format")
+	flag.StringVar(&env.GuestSpace, "g", "0", "Guest Space ID")
 
 	flag.Parse()
 
@@ -34,7 +36,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		ba, _ := yaclik.FetchFieldsJson(env.AppID, env.Domain, env.Login, env.Password)
+		ba, _ := yaclik.FetchFieldsJson(env.AppID, env.Domain, env.Login, env.Password, env.GuestSpace)
 		if env.Format == "json" {
 			var out bytes.Buffer
 			if err := json.Indent(&out, ba, "", "  "); err != nil {

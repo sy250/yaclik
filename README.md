@@ -3,7 +3,7 @@ Yet Another cli-kintone
 
 ## Version
 
-0.0.1
+0.2.0
 
 ## Downloads
 
@@ -23,6 +23,8 @@ Usage of ./yaclik:
     	Output format (default "csv")
   -p string
     	User login password
+  -g string
+    	Guest Space ID
 ```
 
 ## Examples
